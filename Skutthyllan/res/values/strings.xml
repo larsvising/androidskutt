@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">SkutthyllanActivity!</string>
+      <string name="bokinfo">Boken</string>
+    <string name="app_name">Skutthyllan</string>
+    <string name="skutt_url">http://itsbooks.cloudfoundry.com/api/book/</string>
+     <string name="coverimage">bookcover</string>
+
+</resources>
