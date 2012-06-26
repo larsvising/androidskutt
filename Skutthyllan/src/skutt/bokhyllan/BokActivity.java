@@ -9,11 +9,14 @@ import skutthyllan.utils.JsonUtils;
 import skutthyllan.utils.SkuttbokUtils;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
  
@@ -45,6 +48,8 @@ public class BokActivity extends Activity {
 		if (bundle != null) {
 			bokId = bundle.getString("id");
 			bokIsbn = SkuttbokUtils.ejNullTrim(bundle.getString("isbn"));
+			final String gBooksPre="http://www.google.se/search?hl=sv&tbo=p&tbm=bks&q=isbn:"+bokIsbn;
+			final String gBooksPost ="&num=10";
 			JSONObject jobj = JsonUtils.getGoogleBooksJSON(bokIsbn);
 			if (jobj != null) {
 				try {
@@ -59,6 +64,16 @@ public class BokActivity extends Activity {
 					Bitmap bitmap = BitmapFactory.decodeStream((InputStream) new URL(thumbnailUrl).getContent());
 					imView.setImageBitmap(bitmap);
 					imView.invalidate();
+					imView.setOnClickListener(new View.OnClickListener(){
+					    public void onClick(View v){
+					        Intent intent = new Intent();
+					        intent.setAction(Intent.ACTION_VIEW);
+					        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+					        intent.setData(Uri.parse(gBooksPre+gBooksPost));
+					        startActivity(intent);
+					    }
+					});
+
 
 				} catch (JSONException e) {
 					Log.e("ERROR", "JSON " + e.toString());
@@ -70,6 +85,8 @@ public class BokActivity extends Activity {
 		}
 
 		this.setContentView(ll);
+
+
 	}
 
 }
